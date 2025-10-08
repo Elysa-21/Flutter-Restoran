@@ -1,0 +1,66 @@
+name: tugas_flutter
+description: "A new Flutter project."
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  badges: ^3.1.2
+  intl: ^0.18.1
+  shared_preferences: ^2.3.2
+  flutter_rating_stars: ^1.0.0
+  curved_navigation_bar: ^1.0.3
+  cupertino_icons: ^1.0.8
+  device_info_plus: ^12.1.0
+  webview_flutter: ^4.0.7
+  getwidget: ^7.0.0 
+  webview_windows: ^0.2.1 
+  loading_animation_widget: ^1.2.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/logo.png
+    - assets/bg_welcome.png
+    - assets/makanan_welcome.png
+    - assets/camilan/bakwanjagung.png
+    - assets/camilan/cirengayam.png
+    - assets/camilan/pisanggoreng.png
+    - assets/camilan/tahuisi.png
+    - assets/camilan/tempemendoan.png
+    - assets/camilan/dimsum.png
+    - assets/camilan/kueputu.png
+    - assets/makanan/nasigoreng.png
+    - assets/makanan/ayamgoreng.png
+    - assets/makanan/nasikuning.png
+    - assets/makanan/ayamsambalijo.png
+    - assets/makanan/ikangoreng.png
+    - assets/makanan/nasiliwet.png
+    - assets/makanan/pecellele.png
+    - assets/makanan/rawon.png
+    - assets/makanan/sotoayam.png
+    - assets/makanan/ayamgeprek.png
+    - assets/minuman/esteh.png
+    - assets/minuman/esjeruk.png
+    - assets/minuman/eskuwut.png
+    - assets/minuman/esdegan.png
+    - assets/minuman/esdawet.png
+    - assets/minuman/wedangjahe.png
+    - assets/minuman/wedangronde.png
+    - assets/web/review_page.html
+   
