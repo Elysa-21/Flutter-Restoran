@@ -7,14 +7,9 @@ import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_flutter/models/order.dart';
 import 'package:tugas_flutter/order_detail_page.dart';
-import 'package:tugas_flutter/review_webview_page.dart';
 import 'dart:convert';
 
-// PERBAIKAN: Halaman ini akan memuat riwayatnya sendiri dari SharedPreferences.
-// Properti 'orders' di konstruktor dihilangkan atau diabaikan,
-// karena data harus selalu dimuat ulang saat halaman dibuka.
 class OrderHistoryPage extends StatefulWidget {
-  // final List<Order> orders; // Dihilangkan atau diabaikan
   const OrderHistoryPage({super.key});
 
   @override
@@ -22,9 +17,8 @@ class OrderHistoryPage extends StatefulWidget {
 }
 
 class _OrderHistoryPageState extends State<OrderHistoryPage> {
-  List<Order> _loadedOrders =
-      []; // State untuk menampung riwayat pesanan yang dimuat
-  bool _isLoading = true; // State untuk loading
+  List<Order> _loadedOrders = [];
+  bool _isLoading = true;
 
   Map<String, double> orderRatings = {};
   Map<String, String> orderReviews = {};
@@ -33,11 +27,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   @override
   void initState() {
     super.initState();
-    // Panggil fungsi loading utama saat halaman diinisialisasi
     _loadOrderHistory();
   }
 
-  // FUNGSI BARU: Memuat seluruh riwayat pesanan dari SharedPreferences
   Future<void> _loadOrderHistory() async {
     setState(() {
       _isLoading = true;
@@ -51,16 +43,13 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
       try {
         final List<dynamic> decoded = jsonDecode(existingData);
         orders = decoded.map((e) {
-          // Deserialisasi dari Map ke objek Order menggunakan Order.fromMap()
           return Order.fromMap(e as Map<String, dynamic>);
         }).toList();
       } catch (e) {
-        // Tangani jika terjadi error saat decoding
         debugPrint('Error decoding order history from SharedPreferences: $e');
       }
     }
 
-    // Urutkan berdasarkan waktu transaksi terbaru
     orders.sort((a, b) => b.transactionTime.compareTo(a.transactionTime));
 
     setState(() {
@@ -68,11 +57,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
       _isLoading = false;
     });
 
-    // Setelah orders dimuat, kita bisa memuat rating dan ulasan yang tersimpan.
     _loadSavedReviews();
   }
 
-  // FUNGSI DIPERBAIKI: Menggunakan _loadedOrders, bukan widget.orders
   Future<void> _loadSavedReviews() async {
     final prefs = await SharedPreferences.getInstance();
     for (var order in _loadedOrders) {
@@ -80,13 +67,9 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
       final rating = prefs.getDouble("rating_${order.orderId}") ?? 0.0;
       final review = prefs.getString("review_${order.orderId}") ?? "";
 
-      // Update object order dengan rating/review yang sudah ada (jika ada)
-      // Ini penting agar data yang dikirim ke ReviewWebViewPage akurat.
-
       orderRatings[order.orderId] = rating;
       orderReviews[order.orderId] = review;
     }
-    // Tidak perlu setState karena _loadOrderHistory sudah memanggil setState
   }
 
   String formatRupiah(int amount) {
@@ -150,28 +133,13 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final orders = _loadedOrders; // Menggunakan data dari state
+    final orders = _loadedOrders;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Riwayat Pesanan"),
         backgroundColor: Colors.deepOrange,
         foregroundColor: Colors.white,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.web),
-            tooltip: 'Lihat Review di WebView',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  // Kirim orders yang sudah dimuat ke ReviewWebViewPage
-                  builder: (context) => ReviewWebViewPage(orders: orders),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: _isLoading
           ? const Center(

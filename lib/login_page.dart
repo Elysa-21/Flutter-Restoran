@@ -19,19 +19,38 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      String email = _emailController.text.trim();
-      String username = email.substring(0, email.indexOf('@'));
-
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("email", email);
-      await prefs.setString("nama", username);
+      String? storedEmail = prefs.getString('email');
+      String? storedPassword = prefs.getString('password');
+      String? storedName = prefs.getString('name');
 
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(username: username, email: email),
-        ),
-      );
+      String email = _emailController.text.trim();
+      String password = _passwordController.text.trim();
+
+      if (storedEmail == null || storedPassword == null || storedName == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Akun tidak ditemukan. Silakan sign up terlebih dahulu.")),
+        );
+        return;
+      }
+
+      if (storedEmail == email && storedPassword == password) {
+        String username = storedName;
+
+        await prefs.setString("email", email);
+        await prefs.setString("nama", username);
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(username: username, email: email),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Email atau password salah.")),
+        );
+      }
     }
   }
 

@@ -66,23 +66,47 @@ class _ProfilePageState extends State<ProfilePage> {
   void _handleLogout() async {
     if (!mounted) return;
 
-    final prefs = await SharedPreferences.getInstance();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Konfirmasi Logout'),
+          content: const Text('Apakah Anda yakin ingin logout?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Tutup dialog
+              },
+              child: const Text('Tidak'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop(); // Tutup dialog
 
-    await prefs.remove("nama");
-    await prefs.remove("email");
-    await prefs.remove("noHp");
+                final prefs = await SharedPreferences.getInstance();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Anda telah berhasil Logout!'),
-        duration: Duration(seconds: 1),
-      ),
-    );
+                await prefs.remove("nama");
+                await prefs.remove("email");
+                await prefs.remove("noHp");
 
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => const WelcomePage()),
-      (Route<dynamic> route) => false,
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Anda telah berhasil Logout!'),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WelcomePage()),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              child: const Text('Ya'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -166,7 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
             context,
             icon: Icons.devices_outlined,
             title: "Device Info",
-            subtitle: "Model, OS, dan Spesifikasi Perangkat",
+            subtitle: "Model dan OS",
             onTap: () {
               Navigator.push(
                 context,
@@ -180,17 +204,16 @@ class _ProfilePageState extends State<ProfilePage> {
             context,
             icon: Icons.account_circle_outlined,
             title: "Data Pengguna",
-            subtitle: "Nama, Email, No. HP, dan Password",
+            subtitle: "Nama, Email, No. HP",
             onTap: () => _navigateToUserData(context),
           ),
 
-          // --- 4. Fitur Riwayat Pesanan (SEKARANG TANPA showBadge: true) ---
+          // --- 4. Fitur Riwayat Pesanan ---
           _buildFeatureTile(
             context,
             icon: Icons.history_toggle_off,
             title: "Riwayat Pesanan",
-            subtitle: "Lihat pesanan Anda sebelumnya, beri ulasan & pesan lagi",
-            // showBadge: true; DIHILANGKAN AGAR TIDAK ADA OREN-OREN
+            subtitle: "Lihat pesanan Anda sebelumnya dan beri ulasan",
             onTap: () {
               Navigator.push(
                 context,
@@ -207,14 +230,12 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Widget pembangun Tile Fitur (Tetap mempertahankan logika showBadge, tetapi sekarang tidak dipanggil)
   Widget _buildFeatureTile(
     BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
     required VoidCallback onTap,
-    // showBadge defaultnya false, sehingga badge tidak akan muncul
     bool showBadge = false,
   }) {
     return Container(
@@ -244,7 +265,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          // Logika GFBadge masih ada, tetapi tidak akan dieksekusi karena showBadge: false
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

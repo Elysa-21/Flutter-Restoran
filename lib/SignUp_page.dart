@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'login_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -20,11 +21,22 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
-  void _signUp() {
+  void _signUp() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('name', _nameController.text.trim());
+      await prefs.setString('email', _emailController.text.trim());
+      await prefs.setString('password', _passwordController.text.trim());
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Akun berhasil dibuat!")),
+      );
+
+      // Navigate to LoginPage after successful signup
+      Navigator.pushReplacement(
         context,
-      ).showSnackBar(const SnackBar(content: Text("Akun berhasil dibuat!")));
+        MaterialPageRoute(builder: (context) => const LoginPage()),
+      );
     }
   }
 

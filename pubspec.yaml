@@ -21,7 +21,6 @@ dependencies:
   device_info_plus: ^12.1.0
   webview_flutter: ^4.0.7
   getwidget: ^7.0.0 
-  webview_windows: ^0.2.1 
   loading_animation_widget: ^1.2.0
 
 
@@ -62,5 +61,4 @@ flutter:
     - assets/minuman/esdawet.png
     - assets/minuman/wedangjahe.png
     - assets/minuman/wedangronde.png
-    - assets/web/review_page.html
    

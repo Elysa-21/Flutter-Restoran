@@ -101,6 +101,7 @@ class DetailMenuPage extends StatelessWidget {
                     SnackBar(
                       content: Text("${menu.nama} ditambahkan ke keranjang."),
                       backgroundColor: Colors.deepOrange,
+                      duration: const Duration(seconds: 2),
                     ),
                   );
                 },
