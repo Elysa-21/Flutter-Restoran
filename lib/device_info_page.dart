@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
-import 'package:flutter/foundation.dart'
-    show kIsWeb; 
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class DeviceInfoPage extends StatefulWidget {
   const DeviceInfoPage({super.key});
@@ -106,7 +105,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
     if (userAgent.contains('Linux')) return 'Linux';
     return 'Unknown Host OS';
   }
-  // -----------------------------------------------------------------
 
   // Helper untuk update state
   void _updateState(String model, String os) {
@@ -143,7 +141,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
             child: Text(
               value,
               textAlign: TextAlign.right,
-              // Ukuran font lebih kecil untuk User Agent yang panjang
               style: GoogleFonts.poppins(
                 fontSize: value.length > 50 ? 12 : 15,
                 color: Colors.grey[700],
@@ -177,17 +174,6 @@ class _DeviceInfoPageState extends State<DeviceInfoPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // --- BARIS INI DIHAPUS: MENGHILANGKAN JUDUL DUPLIKAT ---
-                    // Text(
-                    //   "Informasi Perangkat",
-                    //   style: GoogleFonts.poppins(
-                    //     fontSize: 20,
-                    //     fontWeight: FontWeight.bold,
-                    //     color: Colors.brown[800],
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 10),
-                    // --------------------------------------------------------
                     const Divider(color: Colors.deepOrange, thickness: 1),
                     _buildDeviceField("Model", _deviceModel),
                     _buildDeviceField("OS", _osVersion),

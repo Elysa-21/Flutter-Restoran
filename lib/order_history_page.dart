@@ -1,5 +1,3 @@
-// lib/order_history_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -107,7 +105,6 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
     await prefs.setDouble("rating_${order.orderId}", rating);
     await prefs.setString("review_${order.orderId}", reviewText);
 
-    // update object Order agar bisa dikirim ke WebView
     order.addReview(rating.toInt(), reviewText);
 
     setState(() {

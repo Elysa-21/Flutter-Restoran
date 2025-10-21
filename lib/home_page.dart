@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Container(
-      color: Colors.white, // background putih polos
+      color: Colors.white, 
       child: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -151,7 +151,6 @@ class _HomePageState extends State<HomePage> {
                       width: 2,
                     ),
                   ),
-                  // efek bayangan biar ga “nempel”
                   focusedErrorBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: const BorderSide(color: Colors.red, width: 1.5),
@@ -159,7 +158,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-              // Header (JANGAN DIUBAH)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20),
@@ -325,11 +323,11 @@ class _HomePageState extends State<HomePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                       side: const BorderSide(
-                        color: Colors.deepOrange, // border pinggir
+                        color: Colors.deepOrange, 
                         width: 1.5,
                       ),
                     ),
-                    elevation: 0, // biar fokus ke border aja
+                    elevation: 0, 
                     margin: const EdgeInsets.symmetric(
                       vertical: 6,
                       horizontal: 10,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tugas_flutter/home_page.dart';
-import 'package:tugas_flutter/models/cart.dart'; // Pastikan Cart dan CartItem ada
-import 'package:tugas_flutter/models/order.dart'; // Pastikan Order ada
+import 'package:tugas_flutter/models/cart.dart';
+import 'package:tugas_flutter/models/order.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -38,13 +38,11 @@ class StrukPage extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     final String? existingData = prefs.getString('order_history');
 
-    // ordersList sekarang menampung Map<String, dynamic>
     List<Map<String, dynamic>> ordersList = [];
 
     if (existingData != null) {
       try {
         final List<dynamic> decoded = jsonDecode(existingData);
-        // Pastikan kita mencoba memetakan ke Map<String, dynamic>
         ordersList = decoded.map((e) => e as Map<String, dynamic>).toList();
       } catch (e) {
         // Handle jika data lama corrupt
@@ -53,10 +51,8 @@ class StrukPage extends StatelessWidget {
       }
     }
 
-    // Tambahkan order baru menggunakan order.toMap()
     ordersList.add(order.toMap());
 
-    // Simpan kembali seluruh daftar yang diperbarui
     await prefs.setString('order_history', jsonEncode(ordersList));
   }
 
@@ -143,7 +139,6 @@ class StrukPage extends StatelessWidget {
                   // Simpan ke SharedPreferences
                   await saveOrderToPrefs(newOrder);
 
-                  // Kosongkan keranjang
                   for (var item in items) {
                     cart.removeItem(item.menu);
                   }
@@ -158,7 +153,6 @@ class StrukPage extends StatelessWidget {
 
                   // Navigasi ke HomePage setelah delay
                   Future.delayed(const Duration(seconds: 2), () {
-                    // Membersihkan semua rute dan navigasi ke HomePage
                     Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
